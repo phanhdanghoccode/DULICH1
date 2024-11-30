@@ -1,0 +1,144 @@
+@startuml
+package "Source Packages" {
+    package "controller" {
+        class DiaDiemController {
+          - KhachHangDAO : KhachHangDAO
+        + DiaDiemController()
+        + processRequest(request : HttpServletRequest, response : HttpServletResponse)
+        + doGet(request : HttpServletRequest, response : HttpServletResponse)
+        + doPost(request : HttpServletRequest, response : HttpServletResponse)
+        - thayDoiThongTin(request : HttpServletRequest, response : HttpServletResponse)
+        + getServletInfo() : String
+        }
+        class DonHangController {
+             +DonHangController()
+            +void doGet(HttpServletRequest, HttpServletResponse)
+            +void doPost(HttpServletRequest, HttpServletResponse)
+        }
+        class KhachHangController {
+         +KhachHangController()
+            +void doGet(HttpServletRequest, HttpServletResponse)
+            +void doPost(HttpServletRequest, HttpServletResponse)
+            +void dangNhap(HttpServletRequest, HttpServletResponse)
+            +void dangXuat(HttpServletRequest, HttpServletResponse)
+            +void dangKy(HttpServletRequest, HttpServletResponse)
+            +void doiMatKhau(HttpServletRequest, HttpServletResponse)
+            +void xacThuc(HttpServletRequest, HttpServletResponse)
+            +void thayDoiThongTin(HttpServletRequest, HttpServletResponse)
+            +void thayDoiAnh(HttpServletRequest, HttpServletResponse)  
+        }
+        class KhachHangThayDoiAnhController {
+               +KhachHangThayDoiAnh()
+                +void doGet(HttpServletRequest, HttpServletResponse)
+                +void doPost(HttpServletRequest, HttpServletResponse)
+                -String extractFileName(Part)
+        }
+
+        ' Quan hệ phụ thuộc (Dependency)
+        DiaDiemController ..> KhachHangDAO : uses
+        KhachHangController ..> KhachHangDAO : uses
+        DonHangController ..> DonHangDAO : uses
+    }
+
+    package "database" {
+        class DAODiaDiem {
+            + selectById(t : DiaDiem) : DiaDiem
+            + selectAll() : ArrayList<DiaDiem>
+            + insert(t : DiaDiem) : int
+            + insertAll(arr : ArrayList<DiaDiem>) : int
+            + delete(t : DiaDiem) : int
+            + deleteAll(arr : ArrayList<DiaDiem>) : int
+            + update(t : DiaDiem) : int
+        }
+        interface DAOInterface<T> {
+            + selectAll() : ArrayList<T>
+            + selectById(t : T) : T
+            + insert(t : T) : int
+            + insertAll(arr : ArrayList<T>) : int
+            + delete(t : T) : int
+            + deleteAll(arr : ArrayList<T>) : int
+            + update(t : T) : int
+        }
+        class DonHangDAO {
+            + selectAll() : ArrayList<DonHang>
+            + selectById(t : DonHang) : DonHang
+            + insert(t : DonHang) : int
+            + insertAll(arr : ArrayList<DonHang>) : int
+            + delete(t : DonHang) : int
+            + deleteAll(arr : ArrayList<DonHang>) : int
+            + update(t : DonHang) : int
+        }
+        class JDBCUtil {
+            +getConnection() : Connection
+            +closeConnection(c: Connection) : void
+            +printInfo(c: Connection) : void
+        }
+        class KhachHangDAO {
+            - data: List<KhachHang>
+            + selectAll(): List<KhachHang>
+            + selectById(T t): KhachHang
+            + insert(KhachHang t): int
+            + insertAll(List<KhachHang>): int
+            + update(KhachHang t): int
+            + delete(KhachHang t): int
+            + deleteAll(List<KhachHang>): int
+            + selectByUsernameAndPassword(KhachHang t): KhachHang
+        }
+
+        ' Quan hệ kế thừa (Inheritance)
+        KhachHangDAO -|> DAOInterface : implements
+    }
+
+    package "model" {
+        class DiaDiem {
+            
+        }
+        class DonHang {
+            
+        }
+        class KhachHang {
+            
+        }
+        
+    }
+
+    package "net.codejava.mavenproject" {
+        class JakartaRestConfiguration {
+            
+        }
+        class JakartaEE10Resource {
+          
+        }
+    }
+
+    package "util" {
+        class Email {
+            
+        }
+        class MaHoa {
+            
+        }
+        class SoNgauNhien {
+            
+        }
+    }
+}
+
+package "Web Pages" {
+    class "footer.jsp" {
+       
+    }
+    class "header.jsp" {
+        
+    }
+    class "thongTinTourDuLich.jsp" {
+       
+    }
+    class "index.jsp" {
+       
+    }
+    class "left.jsp" {
+        
+    }
+}
+@enduml
